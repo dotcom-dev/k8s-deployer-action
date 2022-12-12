@@ -41,6 +41,4 @@ RUN yarn install --immutable --immutable-cache --check-cache
 
 RUN yarn build
 
-COPY ./dist ./dist
-
 ENTRYPOINT ["yarn", "start"]
