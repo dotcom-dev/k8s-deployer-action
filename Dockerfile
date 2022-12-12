@@ -41,6 +41,8 @@ RUN yarn install --immutable --immutable-cache --check-cache
 
 RUN yarn build
 
-COPY . ./
+COPY ./package.json ./
+COPY /usr/src/action/node_modules ./node_modules
+COPY /usr/src/action/dist ./dist
 
 ENTRYPOINT ["yarn", "start"]
