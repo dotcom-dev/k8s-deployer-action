@@ -31,10 +31,7 @@ RUN apk add --no-cache curl bash && \
     chmod +x ${BIN_DIR}/helm && \
     rm -rf linux-amd64
 
-# Copy application dependency manifests to the container image.
-# Copying this first prevents re-running yarn install on every code change.
-COPY --chown=node:node ./package.json ./
-COPY --chown=node:node ./yarn.lock ./
+COPY . .
 
 # If the --check-cache option is set [...]
 # This is recommended as part of your CI workflows if you're both following the Zero-Installs model
