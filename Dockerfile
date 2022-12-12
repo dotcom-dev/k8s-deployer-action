@@ -28,11 +28,6 @@ RUN apk add --no-cache curl bash && \
     chmod +x ${BIN_DIR}/helm && \
     rm -rf linux-amd64
 
-# Copy the action code
-WORKDIR /usr/src/action
-
-COPY . .
-
 # If the --check-cache option is set [...]
 # This is recommended as part of your CI workflows if you're both following the Zero-Installs model
 # and accepting PRs from third-parties, as they'd otherwise have the ability to alter the checked-in
@@ -40,5 +35,10 @@ COPY . .
 RUN yarn install --immutable --immutable-cache --check-cache
 
 RUN yarn build
+
+# Copy the action code
+WORKDIR /usr/src/action
+
+COPY . .
 
 ENTRYPOINT ["yarn", "start"]
