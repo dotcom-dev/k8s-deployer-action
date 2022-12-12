@@ -1,5 +1,8 @@
 FROM node:19.2-alpine AS build
 
+# Copy the action code
+WORKDIR /usr/src/action
+
 # Set environment variables
 ENV NODE_ENV production
 ENV KUBECTL_BASE_URL="https://dl.k8s.io/release"
@@ -35,9 +38,6 @@ RUN apk add --no-cache curl bash && \
 RUN yarn install --immutable --immutable-cache --check-cache
 
 RUN yarn build
-
-# Copy the action code
-WORKDIR /usr/src/action
 
 COPY . .
 
