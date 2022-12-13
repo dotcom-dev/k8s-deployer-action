@@ -6965,8 +6965,21 @@ const main = async () => {
     // TODO: add repo
     const helm = await helm_1.Helm.create();
     const v = await helm.exec(['version']);
-    const addrep = await helm.addRepo('gamote', 'https://gamote.github.io/charts');
-    console.log('Done ✨', addrep);
+    const namespace = 'test';
+    const defaultRepo = {
+        name: 'gamote',
+        url: 'https://gamote.github.io/charts',
+        chart: 'deployer',
+    };
+    await helm.addRepo(defaultRepo.name, defaultRepo.url);
+    const runOutput = await helm.exec([
+        'install',
+        `-n ${namespace}`,
+        defaultRepo.chart,
+        defaultRepo.name,
+        '--dry-run',
+    ]);
+    console.log('Done ✨', runOutput);
 };
 void main();
 
