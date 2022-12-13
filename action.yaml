@@ -16,8 +16,8 @@ inputs:
   chart:
     description: 'Helm chart. (Required)'
     required: true
-  helm:
-    description: 'Helm binary to execute, one of: helm2, helm3. (Default: helm3)'
+  helmVerison:
+    description: 'Version of Helm. Installs a specific version of Helm binary (Default: latest?)'
     required: false
   values:
     description: 'Helm chart values, expected to be a YAML or JSON string.'

@@ -1,5 +1,5 @@
 import { execCommand } from './utils/fs';
-import { obtainHelmPath } from './utils/helm';
+import { Helm, obtainHelmPath } from './utils/helm';
 
 const main = async (): Promise<void> => {
   // TODO: determine kubeconfig path
@@ -10,11 +10,16 @@ const main = async (): Promise<void> => {
 
   // TODO: add repo
 
-  const helmPath = await obtainHelmPath();
+  const helm = await Helm.create();
 
-  const v = await execCommand(helmPath, ['version', '--client']);
+  const v = await helm.exec(['version']);
 
-  console.log('Done ✨', v);
+  const addrep = await helm.addRepo(
+    'gamote',
+    'https://gamote.github.io/charts'
+  );
+
+  console.log('Done ✨', addrep);
 };
 
 void main();

@@ -4,7 +4,7 @@ import * as util from 'util';
 import * as tc from '@actions/tool-cache';
 
 import { SystemArch, SystemMap, SystemType } from './SystemMap';
-import { walkSync } from './fs';
+import { execCommand, walkSync } from './fs';
 import { getSystemExecutableExtension, getSystemInfo } from './system';
 
 const toolName = 'helm';
@@ -103,3 +103,24 @@ export const obtainHelmPath = async (
 
   return helmExecutablePath;
 };
+
+export class Helm {
+  private executablePath: string;
+
+  private constructor(executablePath: string) {
+    this.executablePath = executablePath;
+  }
+
+  public static async create(version: string = defaultVersion): Promise<Helm> {
+    const executablePath = await obtainHelmPath(version);
+    return new Helm(executablePath);
+  }
+
+  public async exec(args: string[]): Promise<string> {
+    return execCommand(this.executablePath, args);
+  }
+
+  public addRepo(repoName: string, repoUrl: string): Promise<string> {
+    return this.exec(['repo', 'add', repoName, repoUrl]);
+  }
+}

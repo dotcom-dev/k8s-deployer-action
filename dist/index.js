@@ -6667,7 +6667,7 @@ exports.execCommand = execCommand;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.obtainHelmPath = void 0;
+exports.Helm = exports.obtainHelmPath = void 0;
 const fs = __nccwpck_require__(7147);
 const util = __nccwpck_require__(3837);
 const tc = __nccwpck_require__(7784);
@@ -6738,6 +6738,23 @@ const obtainHelmPath = async (version = defaultVersion) => {
     return helmExecutablePath;
 };
 exports.obtainHelmPath = obtainHelmPath;
+class Helm {
+    executablePath;
+    constructor(executablePath) {
+        this.executablePath = executablePath;
+    }
+    static async create(version = defaultVersion) {
+        const executablePath = await (0, exports.obtainHelmPath)(version);
+        return new Helm(executablePath);
+    }
+    async exec(args) {
+        return (0, fs_1.execCommand)(this.executablePath, args);
+    }
+    addRepo(repoName, repoUrl) {
+        return this.exec(['repo', 'add', repoName, repoUrl]);
+    }
+}
+exports.Helm = Helm;
 
 
 /***/ }),
@@ -6940,16 +6957,16 @@ var __webpack_exports__ = {};
 var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const fs_1 = __nccwpck_require__(1716);
 const helm_1 = __nccwpck_require__(5117);
 const main = async () => {
     // TODO: determine kubeconfig path
     // TODO: determine Helm
     // TODO: add default repo
     // TODO: add repo
-    const helmPath = await (0, helm_1.obtainHelmPath)();
-    const v = await (0, fs_1.execCommand)(helmPath, ['version', '--client']);
-    console.log('Done ✨', v);
+    const helm = await helm_1.Helm.create();
+    const v = await helm.exec(['version']);
+    const addrep = await helm.addRepo('gamote', 'https://gamote.github.io/charts');
+    console.log('Done ✨', addrep);
 };
 void main();
 
