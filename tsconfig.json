@@ -1,12 +1,11 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "target": "es2022",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true,
-    "strict": true
-  }
+  "extends": "./tsconfig.base.json",
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib",
+    "tests"
+  ]
 }

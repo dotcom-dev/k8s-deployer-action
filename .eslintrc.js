@@ -41,7 +41,7 @@ module.exports = {
       parser: '@typescript-eslint/parser',
       parserOptions: {
         tsconfigRootDir: __dirname,
-        project: ['./tsconfig.json'],
+        project: ['./tsconfig.eslint.json'],
       },
       extends: [
         'plugin:@typescript-eslint/recommended',
@@ -50,7 +50,7 @@ module.exports = {
       ],
     },
   ],
-  // TODO: Can we use the `exclude` property from `tsconfig.build.json`? (`require('./tsconfig.build.json').exclude`)
+  // TODO: Can we use the `exclude` property from `tsconfig.eslint.json`? (`require('./tsconfig.eslint.json').exclude`)
   ignorePatterns: ['node_modules', 'build'],
   rules: {
     /**
