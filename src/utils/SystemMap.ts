@@ -35,6 +35,8 @@ export class SystemMap<TValue = string> {
       }
 
       this.map.set(type as SystemType, archMap);
+
+      console.log('2', this.map.get(SystemType.Linux)?.get(SystemArch.X64));
     }
   }
 

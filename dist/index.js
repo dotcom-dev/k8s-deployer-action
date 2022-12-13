@@ -6574,6 +6574,7 @@ class SystemMap {
                 }
             }
             this.map.set(type, archMap);
+            console.log('2', this.map.get(SystemType.Linux)?.get(SystemArch.X64));
         }
     }
     get(type, arch, formatter) {
@@ -6650,7 +6651,11 @@ const downloadLinks = new SystemMap_1.SystemMap({
 });
 const getDownloadUrl = (version) => {
     const { type, arch } = (0, system_1.getSystemInfo)();
-    const url = downloadLinks.get(type, arch, (url) => url ? util.format(url, version) : undefined);
+    console.log('{ type, arch }--', { type, arch });
+    const url = downloadLinks.get(type, arch, (url) => {
+        console.log('url--', url);
+        return url ? util.format(url, version) : undefined;
+    });
     if (!url) {
         throw new Error(`No Helm download link found for this system (${type} ${arch})`);
     }

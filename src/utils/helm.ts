@@ -17,10 +17,11 @@ const downloadLinks = new SystemMap({
 
 const getDownloadUrl = (version: string) => {
   const { type, arch } = getSystemInfo();
-
-  const url = downloadLinks.get(type, arch, (url) =>
-    url ? util.format(url, version) : undefined
-  );
+  console.log('{ type, arch }--', { type, arch });
+  const url = downloadLinks.get(type, arch, (url) => {
+    console.log('url--', url);
+    return url ? util.format(url, version) : undefined;
+  });
 
   if (!url) {
     throw new Error(
