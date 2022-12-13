@@ -77,7 +77,8 @@ const main = async (): Promise<void> => {
   const helmArgs = [
     // 'template',
     'install',
-    `-n ${namespace}`,
+    `-n`,
+    `${namespace}`,
     releaseName,
     `${defaultRepo.name}/${defaultRepo.chart}`,
   ];
