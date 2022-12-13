@@ -24,7 +24,8 @@ jobs:
           releaseName: 'test-release'
           chart: 'test-chart'
           helmVersion: 'v3.10.2'
-          overrideValues: "containerPort:4321"
+          values: |
+            containerPort:4321
           valueFiles: |
             ./.github/workflows/test/_common.yaml
             ./.github/workflows/test/develop.yaml

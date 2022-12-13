@@ -1,34 +1,55 @@
 import * as core from '@actions/core';
 
-import { execCommand } from './utils/fs';
-import { Helm, obtainHelmPath } from './utils/helm';
+import { Helm } from './utils/helm';
 
 type NameValuePair = {
   name: string;
   value: string;
 };
 
-const getOverrideValues = () => {
-  const overridesValuesInput = core.getInput('overrideValues', {
+const getValues = () => {
+  const valuesInput = core.getInput('values', {
     required: false,
   });
 
-  const overrides = overridesValuesInput.split('\n');
-
-  if (overrides.length < 1) {
+  if (!valuesInput) {
     return [];
   }
 
-  return overrides.reduce((overrideValues, override) => {
-    const overrideComponents = override.split(':');
+  const rawValues = valuesInput.split('\n');
 
-    overrideValues.push({
-      name: overrideComponents[0],
-      value: overrideComponents.slice(1).join(':'),
+  if (rawValues.length < 1) {
+    return [];
+  }
+
+  return rawValues.reduce((valuePairs, rawValue) => {
+    const rawValueComponents = rawValue.split(':');
+
+    valuePairs.push({
+      name: rawValueComponents[0],
+      value: rawValueComponents.slice(1).join(':'),
     });
 
-    return overrideValues;
+    return valuePairs;
   }, [] as NameValuePair[]);
+};
+
+const getValueFiles = () => {
+  const valueFilesInput = core.getInput('valueFiles', {
+    required: false,
+  });
+
+  if (!valueFilesInput) {
+    return [];
+  }
+
+  const valueFiles = valueFilesInput.split('\n');
+
+  if (valueFiles.length < 1) {
+    return [];
+  }
+
+  return valueFiles;
 };
 
 const main = async (): Promise<void> => {
@@ -69,9 +90,14 @@ const main = async (): Promise<void> => {
     `${defaultRepo.name}/${defaultRepo.chart}`,
   ];
 
-  getOverrideValues().forEach((override) => {
+  getValueFiles().forEach((file) => {
+    helmArgs.push('-f');
+    helmArgs.push(file);
+  });
+
+  getValues().forEach(({ name, value }) => {
     helmArgs.push('--set');
-    helmArgs.push(`${override.name}=${override.value}`);
+    helmArgs.push(`${name}=${value}`);
   });
 
   console.log('helmArgs', helmArgs);

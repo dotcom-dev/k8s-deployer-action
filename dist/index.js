@@ -6959,22 +6959,38 @@ var exports = __webpack_exports__;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __nccwpck_require__(2186);
 const helm_1 = __nccwpck_require__(5117);
-const getOverrideValues = () => {
-    const overridesValuesInput = core.getInput('overrideValues', {
+const getValues = () => {
+    const valuesInput = core.getInput('values', {
         required: false,
     });
-    const overrides = overridesValuesInput.split('\n');
-    if (overrides.length < 1) {
+    if (!valuesInput) {
         return [];
     }
-    return overrides.reduce((overrideValues, override) => {
-        const overrideComponents = override.split(':');
-        overrideValues.push({
-            name: overrideComponents[0],
-            value: overrideComponents.slice(1).join(':'),
+    const rawValues = valuesInput.split('\n');
+    if (rawValues.length < 1) {
+        return [];
+    }
+    return rawValues.reduce((valuePairs, rawValue) => {
+        const rawValueComponents = rawValue.split(':');
+        valuePairs.push({
+            name: rawValueComponents[0],
+            value: rawValueComponents.slice(1).join(':'),
         });
-        return overrideValues;
+        return valuePairs;
     }, []);
+};
+const getValueFiles = () => {
+    const valueFilesInput = core.getInput('valueFiles', {
+        required: false,
+    });
+    if (!valueFilesInput) {
+        return [];
+    }
+    const valueFiles = valueFilesInput.split('\n');
+    if (valueFiles.length < 1) {
+        return [];
+    }
+    return valueFiles;
 };
 const main = async () => {
     // TODO: determine kubeconfig path
@@ -7004,9 +7020,13 @@ const main = async () => {
         releaseName,
         `${defaultRepo.name}/${defaultRepo.chart}`,
     ];
-    getOverrideValues().forEach((override) => {
+    getValueFiles().forEach((file) => {
+        helmArgs.push('-f');
+        helmArgs.push(file);
+    });
+    getValues().forEach(({ name, value }) => {
         helmArgs.push('--set');
-        helmArgs.push(`${override.name}=${override.value}`);
+        helmArgs.push(`${name}=${value}`);
     });
     console.log('helmArgs', helmArgs);
     const templateOutput = await helm.exec(helmArgs);
