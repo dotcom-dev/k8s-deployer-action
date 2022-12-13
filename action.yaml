@@ -16,7 +16,7 @@ inputs:
   chart:
     description: 'Helm chart. (Required)'
     required: true
-  helmVerison:
+  helmVersion:
     description: 'Version of Helm. Installs a specific version of Helm binary (Default: latest?)'
     required: false
   overrideValues:
@@ -28,7 +28,7 @@ inputs:
   repoUrl:
     description: 'Helm chart repository to be added.'
     required: false
-  repoNemo:
+  repoName:
     description: 'Helm repository alias that will be used.'
     required: false
 
