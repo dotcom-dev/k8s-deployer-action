@@ -1,8 +1,5 @@
 FROM node:19.2-alpine AS build
 
-# Copy the action code
-WORKDIR /usr/src/action
-
 # Set environment variables
 ENV NODE_ENV production
 ENV KUBECTL_BASE_URL="https://dl.k8s.io/release"
@@ -31,8 +28,6 @@ RUN apk add --no-cache curl bash && \
     chmod +x ${BIN_DIR}/helm && \
     rm -rf linux-amd64
 
-COPY . .
-
 # If the --check-cache option is set [...]
 # This is recommended as part of your CI workflows if you're both following the Zero-Installs model
 # and accepting PRs from third-parties, as they'd otherwise have the ability to alter the checked-in
@@ -40,9 +35,5 @@ COPY . .
 RUN yarn install --immutable --immutable-cache --check-cache
 
 RUN yarn build
-
-COPY ./package.json ./
-COPY ./node_modules ./node_modules
-COPY ./dist ./dist
 
 ENTRYPOINT ["yarn", "start"]
