@@ -6728,8 +6728,8 @@ const os = __nccwpck_require__(2037);
 const getSystemInfo = () => {
     const { type, arch } = os;
     return {
-        type: type,
-        arch: arch,
+        type: type(),
+        arch: arch(),
     };
 };
 exports.getSystemInfo = getSystemInfo;
