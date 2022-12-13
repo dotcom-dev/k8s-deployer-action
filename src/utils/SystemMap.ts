@@ -1,5 +1,3 @@
-import * as core from '@actions/core';
-
 export enum SystemType {
   Windows = 'Windows_NT',
   Linux = 'Linux',
@@ -46,9 +44,6 @@ export class SystemMap<TValue = string> {
     formatter?: (value?: TValue) => TReturnValue
   ): TReturnValue | undefined {
     const value = this.map.get(type)?.get(arch);
-
-    console.log(`--1-- `, JSON.stringify(this.map));
-    console.log(`--typearch-- `, JSON.stringify({ type, arch }));
 
     if (value && formatter) {
       return formatter(value);

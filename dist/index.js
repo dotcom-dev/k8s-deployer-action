@@ -6579,8 +6579,6 @@ class SystemMap {
     }
     get(type, arch, formatter) {
         const value = this.map.get(type)?.get(arch);
-        console.log(`--1-- `, JSON.stringify(this.map));
-        console.log(`--typearch-- `, JSON.stringify({ type, arch }));
         if (value && formatter) {
             return formatter(value);
         }
@@ -6651,11 +6649,7 @@ const downloadLinks = new SystemMap_1.SystemMap({
 });
 const getDownloadUrl = (version) => {
     const { type, arch } = (0, system_1.getSystemInfo)();
-    console.log('{ type, arch }--', { type, arch });
-    const url = downloadLinks.get(type, arch, (url) => {
-        console.log('url--', url);
-        return url ? util.format(url, version) : undefined;
-    });
+    const url = downloadLinks.get(type, arch, (url) => url ? util.format(url, version) : undefined);
     if (!url) {
         throw new Error(`No Helm download link found for this system (${type} ${arch})`);
     }
