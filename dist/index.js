@@ -7009,7 +7009,8 @@ const main = async () => {
     await helm.addRepo(defaultRepo.name, defaultRepo.url);
     const helmArgs = [
         // 'template',
-        'install',
+        'upgrade',
+        '--install',
         `-n`,
         `${namespace}`,
         releaseName,

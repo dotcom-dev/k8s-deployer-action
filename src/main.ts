@@ -76,7 +76,8 @@ const main = async (): Promise<void> => {
 
   const helmArgs = [
     // 'template',
-    'install',
+    'upgrade',
+    '--install',
     `-n`,
     `${namespace}`,
     releaseName,
