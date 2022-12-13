@@ -62,6 +62,8 @@ const main = async (): Promise<void> => {
 
   // TODO: add repo
 
+  // TODO: init in case Helm2
+
   const helm = await Helm.create();
 
   const namespace = getInput('namespace', { required: true });

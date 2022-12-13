@@ -6998,6 +6998,7 @@ const main = async () => {
     // TODO: determine Helm
     // TODO: add default repo
     // TODO: add repo
+    // TODO: init in case Helm2
     const helm = await helm_1.Helm.create();
     const namespace = (0, core_1.getInput)('namespace', { required: true });
     const releaseName = (0, core_1.getInput)('releaseName', { required: true });
