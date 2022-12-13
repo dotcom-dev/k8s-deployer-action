@@ -20,14 +20,14 @@ jobs:
       - name: 'Run the K8S Deployer Action'
         uses: ./
         with:
-          namespace: 'test'
+          namespace: 'testname'
           releaseName: 'test-release'
-          chart: 'test-chart'
-          helmVersion: 'v3.10.2'
           values: |
             containerPort:4321
           valueFiles: |
             ./.github/workflows/test/_common.yaml
             ./.github/workflows/test/develop.yaml
-          repoUrl: "https://charts.helm.sh/stable"
-          repoName: "stable"
+#          chart: 'test-chart'
+#          helmVersion: 'v3.10.2'
+#          repoUrl: "https://charts.helm.sh/stable"
+#          repoName: "stable"

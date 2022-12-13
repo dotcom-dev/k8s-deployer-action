@@ -6958,6 +6958,7 @@ var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __nccwpck_require__(2186);
+const core_1 = __nccwpck_require__(2186);
 const helm_1 = __nccwpck_require__(5117);
 const getValues = () => {
     const valuesInput = core.getInput('values', {
@@ -6998,24 +6999,17 @@ const main = async () => {
     // TODO: add default repo
     // TODO: add repo
     const helm = await helm_1.Helm.create();
-    const v = await helm.exec(['version']);
-    const namespace = 'test';
-    const releaseName = 'testrelease';
+    const namespace = (0, core_1.getInput)('namespace', { required: true });
+    const releaseName = (0, core_1.getInput)('releaseName', { required: true });
     const defaultRepo = {
         name: 'gamote',
         url: 'https://gamote.github.io/charts',
         chart: 'deployer',
     };
     await helm.addRepo(defaultRepo.name, defaultRepo.url);
-    // const runOutput = await helm.exec([
-    //   'install',
-    //   `-n ${namespace}`,
-    //   '--dry-run',
-    //   releaseName,
-    //   `${defaultRepo.name}/${defaultRepo.chart}`,
-    // ]);
     const helmArgs = [
-        'template',
+        // 'template',
+        'install',
         `-n ${namespace}`,
         releaseName,
         `${defaultRepo.name}/${defaultRepo.chart}`,

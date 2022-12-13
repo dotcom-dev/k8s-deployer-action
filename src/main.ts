@@ -1,4 +1,5 @@
 import * as core from '@actions/core';
+import { getInput } from '@actions/core';
 
 import { Helm } from './utils/helm';
 
@@ -63,10 +64,8 @@ const main = async (): Promise<void> => {
 
   const helm = await Helm.create();
 
-  const v = await helm.exec(['version']);
-
-  const namespace = 'test';
-  const releaseName = 'testrelease';
+  const namespace = getInput('namespace', { required: true });
+  const releaseName = getInput('releaseName', { required: true });
   const defaultRepo = {
     name: 'gamote',
     url: 'https://gamote.github.io/charts',
@@ -75,16 +74,9 @@ const main = async (): Promise<void> => {
 
   await helm.addRepo(defaultRepo.name, defaultRepo.url);
 
-  // const runOutput = await helm.exec([
-  //   'install',
-  //   `-n ${namespace}`,
-  //   '--dry-run',
-  //   releaseName,
-  //   `${defaultRepo.name}/${defaultRepo.chart}`,
-  // ]);
-
   const helmArgs = [
-    'template',
+    // 'template',
+    'install',
     `-n ${namespace}`,
     releaseName,
     `${defaultRepo.name}/${defaultRepo.chart}`,
