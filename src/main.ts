@@ -24,15 +24,21 @@ const main = async (): Promise<void> => {
 
   await helm.addRepo(defaultRepo.name, defaultRepo.url);
 
-  const runOutput = await helm.exec([
-    'install',
+  // const runOutput = await helm.exec([
+  //   'install',
+  //   `-n ${namespace}`,
+  //   '--dry-run',
+  //   releaseName,
+  //   `${defaultRepo.name}/${defaultRepo.chart}`,
+  // ]);
+  const templateOutput = await helm.exec([
+    'template',
     `-n ${namespace}`,
-    '--dry-run',
     releaseName,
     `${defaultRepo.name}/${defaultRepo.chart}`,
   ]);
 
-  console.log('Done ✨', runOutput);
+  console.log('Done ✨', templateOutput);
 };
 
 void main();
