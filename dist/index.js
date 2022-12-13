@@ -7010,7 +7010,8 @@ const main = async () => {
     const helmArgs = [
         // 'template',
         'install',
-        `-n ${namespace}`,
+        `-n`,
+        `${namespace}`,
         releaseName,
         `${defaultRepo.name}/${defaultRepo.chart}`,
     ];
