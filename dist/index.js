@@ -6540,13 +6540,12 @@ module.exports = v4;
 /***/ }),
 
 /***/ 390:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+/***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SystemMap = exports.SystemArch = exports.SystemType = void 0;
-const core = __nccwpck_require__(2186);
 var SystemType;
 (function (SystemType) {
     SystemType["Windows"] = "Windows_NT";
@@ -6579,8 +6578,8 @@ class SystemMap {
     }
     get(type, arch, formatter) {
         const value = this.map.get(type)?.get(arch);
-        core.debug(`--1-- ${JSON.stringify(this.map)}`);
-        core.debug(`--typearch-- ${JSON.stringify({ type, arch })}`);
+        console.log(`--1-- `, JSON.stringify(this.map));
+        console.log(`--typearch-- `, JSON.stringify({ type, arch }));
         if (value && formatter) {
             return formatter(value);
         }

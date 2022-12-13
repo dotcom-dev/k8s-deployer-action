@@ -45,8 +45,8 @@ export class SystemMap<TValue = string> {
   ): TReturnValue | undefined {
     const value = this.map.get(type)?.get(arch);
 
-    core.debug(`--1-- ${JSON.stringify(this.map)}`);
-    core.debug(`--typearch-- ${JSON.stringify({ type, arch })}`);
+    console.log(`--1-- `, JSON.stringify(this.map));
+    console.log(`--typearch-- `, JSON.stringify({ type, arch }));
 
     if (value && formatter) {
       return formatter(value);
