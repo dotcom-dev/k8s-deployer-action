@@ -6976,10 +6976,9 @@ const main = async () => {
     const runOutput = await helm.exec([
         'install',
         `-n ${namespace}`,
-        defaultRepo.chart,
+        '--dry-run',
         releaseName,
         `${defaultRepo.name}/${defaultRepo.chart}`,
-        '--dry-run',
     ]);
     console.log('Done ✨', runOutput);
 };
