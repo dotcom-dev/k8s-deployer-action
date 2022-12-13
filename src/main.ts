@@ -1,5 +1,7 @@
 import * as core from '@actions/core';
 
+import { obtainHelmPath } from './utils/helm';
+
 const main = async (): Promise<void> => {
   // TODO: determine kubeconfig path
 
@@ -9,8 +11,7 @@ const main = async (): Promise<void> => {
 
   // TODO: add repo
 
-  console.log('Done ✨');
-  await Promise.resolve();
+  console.log('Done ✨', await obtainHelmPath());
 };
 
 void main();
