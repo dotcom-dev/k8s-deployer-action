@@ -1,5 +1,4 @@
-import * as core from '@actions/core';
-
+import { execCommand } from './utils/fs';
 import { obtainHelmPath } from './utils/helm';
 
 const main = async (): Promise<void> => {
@@ -11,7 +10,11 @@ const main = async (): Promise<void> => {
 
   // TODO: add repo
 
-  console.log('Done ✨', await obtainHelmPath());
+  const helmPath = await obtainHelmPath();
+
+  const v = await execCommand(helmPath, ['version', '--client']);
+
+  console.log('Done ✨', v);
 };
 
 void main();

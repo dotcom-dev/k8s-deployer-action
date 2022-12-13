@@ -6596,10 +6596,12 @@ exports.SystemMap = SystemMap;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.walkSync = void 0;
+exports.execCommand = exports.walkSync = void 0;
 const fs = __nccwpck_require__(7147);
 const path = __nccwpck_require__(1017);
+const util = __nccwpck_require__(3837);
 const core = __nccwpck_require__(2186);
+const toolrunner_1 = __nccwpck_require__(8159);
 /**
  * Return an array containing all recursive files and directories under a given directory for a given file name
  *
@@ -6623,6 +6625,38 @@ const walkSync = (directoryPath, fileToFind, foundFiles = []) => {
     return foundFiles;
 };
 exports.walkSync = walkSync;
+/**
+ * Execute a command and return the output
+ * @param executablePath
+ * @param args
+ * @param options
+ */
+const execCommand = async (executablePath, args, options = {}) => {
+    const execOutput = {
+        stdout: '',
+        stderr: '',
+    };
+    options.listeners = {
+        stdout: (data) => {
+            execOutput.stdout += data.toString();
+        },
+        stderr: (data) => {
+            execOutput.stderr += data.toString();
+        },
+    };
+    const toolRunner = new toolrunner_1.ToolRunner(executablePath, args, options);
+    const result = await toolRunner.exec();
+    if (result != 0) {
+        if (execOutput.stderr) {
+            throw Error(execOutput.stderr);
+        }
+        else {
+            throw Error(util.format('%s exited with result code %s', executablePath, result));
+        }
+    }
+    return execOutput.stdout;
+};
+exports.execCommand = execCommand;
 
 
 /***/ }),
@@ -6906,13 +6940,16 @@ var __webpack_exports__ = {};
 var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const fs_1 = __nccwpck_require__(1716);
 const helm_1 = __nccwpck_require__(5117);
 const main = async () => {
     // TODO: determine kubeconfig path
     // TODO: determine Helm
     // TODO: add default repo
     // TODO: add repo
-    console.log('Done ✨', await (0, helm_1.obtainHelmPath)());
+    const helmPath = await (0, helm_1.obtainHelmPath)();
+    const v = await (0, fs_1.execCommand)(helmPath, ['version', '--client']);
+    console.log('Done ✨', v);
 };
 void main();
 
