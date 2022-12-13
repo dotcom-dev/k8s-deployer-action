@@ -1,5 +1,35 @@
+import * as core from '@actions/core';
+
 import { execCommand } from './utils/fs';
 import { Helm, obtainHelmPath } from './utils/helm';
+
+type NameValuePair = {
+  name: string;
+  value: string;
+};
+
+const getOverrideValues = () => {
+  const overridesValuesInput = core.getInput('overrideValues', {
+    required: false,
+  });
+
+  const overrides = overridesValuesInput.split('\n');
+
+  if (overrides.length < 1) {
+    return [];
+  }
+
+  return overrides.reduce((overrideValues, override) => {
+    const overrideComponents = override.split(':');
+
+    overrideValues.push({
+      name: overrideComponents[0],
+      value: overrideComponents.slice(1).join(':'),
+    });
+
+    return overrideValues;
+  }, [] as NameValuePair[]);
+};
 
 const main = async (): Promise<void> => {
   // TODO: determine kubeconfig path
@@ -31,12 +61,22 @@ const main = async (): Promise<void> => {
   //   releaseName,
   //   `${defaultRepo.name}/${defaultRepo.chart}`,
   // ]);
-  const templateOutput = await helm.exec([
+
+  const helmArgs = [
     'template',
     `-n ${namespace}`,
     releaseName,
     `${defaultRepo.name}/${defaultRepo.chart}`,
-  ]);
+  ];
+
+  getOverrideValues().forEach((override) => {
+    helmArgs.push('--set');
+    helmArgs.push(`${override.name}=${override.value}`);
+  });
+
+  console.log('helmArgs', helmArgs);
+
+  const templateOutput = await helm.exec(helmArgs);
 
   console.log('Done ✨', templateOutput);
 };

@@ -1,0 +1,36 @@
+nameOverride: "test-api"
+containerPort: 3000
+
+#livenessProbe:
+#  httpGet:
+#    path: /readiness
+#    port: http
+#  initialDelaySeconds: 60
+#  periodSeconds: 5
+#  timeoutSeconds: 1
+#  successThreshold: 1
+#  failureThreshold: 20
+
+readinessProbe:
+  httpGet:
+    path: /readiness
+    port: http
+  initialDelaySeconds: 20
+  periodSeconds: 5
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 40
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+    cert-manager.io/acme-challenge-type: http01
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 120m
+    nginx.ingress.kubernetes.io/client-max-body-size: 120m
+    nginx.ingress.kubernetes.io/proxy-body-size: 120m
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 120m
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "20"

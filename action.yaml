@@ -19,8 +19,8 @@ inputs:
   helmVerison:
     description: 'Version of Helm. Installs a specific version of Helm binary (Default: latest?)'
     required: false
-  values:
-    description: 'Helm chart values, expected to be a YAML or JSON string.'
+  overrideValues:
+    description: 'Helm chart override values, expected to be a YAML or JSON string.'
     required: false
   valueFiles:
     description: 'Additional value files to apply to the Helm chart. Expects JSON encoded array or a string.'

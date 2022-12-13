@@ -1,0 +1,9 @@
+ingress:
+  hosts:
+    - host: test-api.dev.gowish.com
+      paths:
+        - pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - test-api.dev.gowish.com
+      secretName: test-api.dev.gowish.com

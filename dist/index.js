@@ -6957,7 +6957,25 @@ var __webpack_exports__ = {};
 var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __nccwpck_require__(2186);
 const helm_1 = __nccwpck_require__(5117);
+const getOverrideValues = () => {
+    const overridesValuesInput = core.getInput('overrideValues', {
+        required: false,
+    });
+    const overrides = overridesValuesInput.split('\n');
+    if (overrides.length < 1) {
+        return [];
+    }
+    return overrides.reduce((overrideValues, override) => {
+        const overrideComponents = override.split(':');
+        overrideValues.push({
+            name: overrideComponents[0],
+            value: overrideComponents.slice(1).join(':'),
+        });
+        return overrideValues;
+    }, []);
+};
 const main = async () => {
     // TODO: determine kubeconfig path
     // TODO: determine Helm
@@ -6980,12 +6998,18 @@ const main = async () => {
     //   releaseName,
     //   `${defaultRepo.name}/${defaultRepo.chart}`,
     // ]);
-    const templateOutput = await helm.exec([
+    const helmArgs = [
         'template',
         `-n ${namespace}`,
         releaseName,
         `${defaultRepo.name}/${defaultRepo.chart}`,
-    ]);
+    ];
+    getOverrideValues().forEach((override) => {
+        helmArgs.push('--set');
+        helmArgs.push(`${override.name}=${override.value}`);
+    });
+    console.log('helmArgs', helmArgs);
+    const templateOutput = await helm.exec(helmArgs);
     console.log('Done ✨', templateOutput);
 };
 void main();
