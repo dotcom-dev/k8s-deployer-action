@@ -9,8 +9,8 @@ export const getSystemInfo = () => {
   const { type, arch } = os;
 
   return {
-    type: type as unknown as SystemType,
-    arch: arch as unknown as SystemArch,
+    type: type() as SystemType,
+    arch: arch() as SystemArch,
   };
 };
 
