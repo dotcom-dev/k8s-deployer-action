@@ -15,6 +15,7 @@ const main = async (): Promise<void> => {
   const v = await helm.exec(['version']);
 
   const namespace = 'test';
+  const releaseName = 'testrelease';
   const defaultRepo = {
     name: 'gamote',
     url: 'https://gamote.github.io/charts',
@@ -27,7 +28,8 @@ const main = async (): Promise<void> => {
     'install',
     `-n ${namespace}`,
     defaultRepo.chart,
-    defaultRepo.name,
+    releaseName,
+    `${defaultRepo.name}/${defaultRepo.chart}`,
     '--dry-run',
   ]);
 

@@ -25,10 +25,10 @@ inputs:
   valueFiles:
     description: 'Additional value files to apply to the Helm chart. Expects JSON encoded array or a string.'
     required: false
-  repo:
+  repoUrl:
     description: 'Helm chart repository to be added.'
     required: false
-  repoAlias:
+  repoNemo:
     description: 'Helm repository alias that will be used.'
     required: false
 
