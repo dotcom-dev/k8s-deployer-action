@@ -68,13 +68,17 @@ const main = async (): Promise<void> => {
 
   const namespace = getInput('namespace', { required: true });
   const releaseName = getInput('releaseName', { required: true });
+  const chart = getInput('chart', { required: false });
   const defaultRepo = {
     name: 'gamote',
     url: 'https://gamote.github.io/charts',
     chart: 'deployer',
   };
 
-  await helm.addRepo(defaultRepo.name, defaultRepo.url);
+  if (!chart) {
+    await helm.addRepo(defaultRepo.name, defaultRepo.url);
+    chart = `${defaultRepo.name}/${defaultRepo.chart}`
+  }
 
   const helmArgs = [
     // 'template',
@@ -83,7 +87,7 @@ const main = async (): Promise<void> => {
     `-n`,
     `${namespace}`,
     releaseName,
-    `${defaultRepo.name}/${defaultRepo.chart}`,
+    chart,
   ];
 
   getValueFiles().forEach((file) => {
