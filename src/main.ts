@@ -54,7 +54,7 @@ const getValueFiles = () => {
 };
 
 const main = async (): Promise<void> => {
-  // TODO: determine kubeconfig path
+  // TODO: determine KubeConfig path
 
   // TODO: determine Helm
 
@@ -99,6 +99,7 @@ const main = async (): Promise<void> => {
   if (wait) {
     helmArgs.push('--wait');
   }
+
   getValueFiles().forEach((file) => {
     helmArgs.push('-f');
     helmArgs.push(file);
@@ -109,11 +110,11 @@ const main = async (): Promise<void> => {
     helmArgs.push(`${name}=${value}`);
   });
 
-  console.log('helmArgs', helmArgs);
+  console.log('ℹ️ Helm Args', helmArgs);
 
   const templateOutput = await helm.exec(helmArgs);
 
-  console.log('Done ✨', templateOutput);
+  console.log('✨ Done', templateOutput);
 };
 
 void main();
