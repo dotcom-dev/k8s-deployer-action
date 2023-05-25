@@ -7002,12 +7002,17 @@ const main = async () => {
     const helm = await helm_1.Helm.create();
     const namespace = (0, core_1.getInput)('namespace', { required: true });
     const releaseName = (0, core_1.getInput)('releaseName', { required: true });
+    const wait = (0, core_1.getInput)('wait', { required: false }) ?? true;
     const defaultRepo = {
         name: 'gamote',
         url: 'https://gamote.github.io/charts',
         chart: 'deployer',
     };
-    await helm.addRepo(defaultRepo.name, defaultRepo.url);
+    const repoUrl = (0, core_1.getInput)('repoUrl', { required: false }) ?? defaultRepo.url;
+    const repoName = (0, core_1.getInput)('repoName', { required: false }) ?? defaultRepo.name;
+    const chart = (0, core_1.getInput)('chart', { required: false }) ??
+        `${defaultRepo.name}/${defaultRepo.chart}`;
+    await helm.addRepo(repoName, repoUrl);
     const helmArgs = [
         // 'template',
         'upgrade',
@@ -7015,8 +7020,11 @@ const main = async () => {
         `-n`,
         `${namespace}`,
         releaseName,
-        `${defaultRepo.name}/${defaultRepo.chart}`,
+        chart,
     ];
+    if (wait) {
+        helmArgs.push('--wait');
+    }
     getValueFiles().forEach((file) => {
         helmArgs.push('-f');
         helmArgs.push(file);
