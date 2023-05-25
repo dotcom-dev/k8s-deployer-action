@@ -31,6 +31,9 @@ inputs:
   repoName:
     description: 'Helm repository alias that will be used.'
     required: false
+  wait:
+    description: 'Helm --wait flag. Defaults to true'
+    required: false
 
 runs:
   using: 'node16'
