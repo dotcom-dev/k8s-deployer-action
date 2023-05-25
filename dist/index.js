@@ -6994,7 +6994,7 @@ const getValueFiles = () => {
     return valueFiles;
 };
 const main = async () => {
-    // TODO: determine kubeconfig path
+    // TODO: determine KubeConfig path
     // TODO: determine Helm
     // TODO: add default repo
     // TODO: add repo
@@ -7033,9 +7033,9 @@ const main = async () => {
         helmArgs.push('--set');
         helmArgs.push(`${name}=${value}`);
     });
-    console.log('helmArgs', helmArgs);
+    console.log('ℹ️ Helm Args', helmArgs);
     const templateOutput = await helm.exec(helmArgs);
-    console.log('Done ✨', templateOutput);
+    console.log('✨ Done', templateOutput);
 };
 void main();
 
