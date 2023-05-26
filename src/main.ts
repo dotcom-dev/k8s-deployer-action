@@ -68,7 +68,7 @@ const main = async (): Promise<void> => {
 
   const namespace = getInput('namespace', { required: true });
   const releaseName = getInput('releaseName', { required: true });
-  const wait = getInput('wait', { required: false }) ?? true;
+  const wait = getInput('wait', { required: false });
 
   const defaultRepo = {
     name: 'gamote',
@@ -76,13 +76,20 @@ const main = async (): Promise<void> => {
     chart: 'deployer',
   };
 
-  const repoUrl = getInput('repoUrl', { required: false }) ?? defaultRepo.url;
-  const repoName =
-    getInput('repoName', { required: false }) ?? defaultRepo.name;
+  let repoUrl = getInput('repoUrl', { required: false });
+  if (!repoUrl) {
+    repoUrl = defaultRepo.url;
+  }
 
-  const chart =
-    getInput('chart', { required: false }) ??
-    `${defaultRepo.name}/${defaultRepo.chart}`;
+  let repoName = getInput('repoName', { required: false });
+  if (!repoName) {
+    repoName = defaultRepo.name;
+  }
+
+  let chart = getInput('chart', { required: false });
+  if (!chart) {
+    chart = `${defaultRepo.name}/${defaultRepo.chart}`;
+  }
 
   await helm.addRepo(repoName, repoUrl);
 
@@ -96,7 +103,7 @@ const main = async (): Promise<void> => {
     chart,
   ];
 
-  if (wait) {
+  if (wait != 'false') {
     helmArgs.push('--wait');
   }
 

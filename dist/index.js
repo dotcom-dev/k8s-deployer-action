@@ -7002,16 +7002,25 @@ const main = async () => {
     const helm = await helm_1.Helm.create();
     const namespace = (0, core_1.getInput)('namespace', { required: true });
     const releaseName = (0, core_1.getInput)('releaseName', { required: true });
-    const wait = (0, core_1.getInput)('wait', { required: false }) ?? true;
+    const wait = (0, core_1.getInput)('wait', { required: false });
     const defaultRepo = {
         name: 'gamote',
         url: 'https://gamote.github.io/charts',
         chart: 'deployer',
     };
-    const repoUrl = (0, core_1.getInput)('repoUrl', { required: false }) ?? defaultRepo.url;
-    const repoName = (0, core_1.getInput)('repoName', { required: false }) ?? defaultRepo.name;
-    const chart = (0, core_1.getInput)('chart', { required: false }) ??
-        `${defaultRepo.name}/${defaultRepo.chart}`;
+    let repoUrl = (0, core_1.getInput)('repoUrl', { required: false });
+    if (!repoUrl) {
+        repoUrl = defaultRepo.url;
+    }
+    let repoName = (0, core_1.getInput)('repoName', { required: false });
+    if (!repoName) {
+        repoName = defaultRepo.name;
+    }
+    let chart = (0, core_1.getInput)('chart', { required: false });
+    if (!chart) {
+        chart = `${defaultRepo.name}/${defaultRepo.chart}`;
+    }
+    console.log(`REPO (${repoName}): ${repoUrl}`);
     await helm.addRepo(repoName, repoUrl);
     const helmArgs = [
         // 'template',
@@ -7022,7 +7031,7 @@ const main = async () => {
         releaseName,
         chart,
     ];
-    if (wait) {
+    if (wait != 'false') {
         helmArgs.push('--wait');
     }
     getValueFiles().forEach((file) => {
