@@ -71,8 +71,8 @@ const main = async (): Promise<void> => {
   const wait = getInput('wait', { required: false });
 
   const defaultRepo = {
-    name: 'gamote',
-    url: 'https://gamote.github.io/charts',
+    name: 'dotcom',
+    url: 'https://dotcom-dev.github.io/charts',
     chart: 'deployer',
   };
 

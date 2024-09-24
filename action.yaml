@@ -1,5 +1,5 @@
 name: 'K8S Deployer'
-author: 'David Gamote'
+author: 'DotCom'
 description: 'Deploy your project to Kubernetes without any hassle'
 
 branding:

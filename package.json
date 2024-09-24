@@ -1,16 +1,16 @@
 {
   "name": "k8s-deployer-action",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/main.d.ts",
   "files": [
     "dist"
   ],
-  "author": "David Gamote",
+  "author": "DotCom",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gamote/k8s-deployer-action.git"
+    "url": "https://github.com/dotcom-dev/k8s-deployer-action.git"
   },
   "keywords": [
     "k8s",
