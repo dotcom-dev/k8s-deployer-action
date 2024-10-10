@@ -6753,6 +6753,9 @@ class Helm {
     addRepo(repoName, repoUrl) {
         return this.exec(['repo', 'add', repoName, repoUrl]);
     }
+    updateRepo(repoName) {
+        return this.exec(['repo', 'update', repoName]);
+    }
 }
 exports.Helm = Helm;
 
@@ -7021,6 +7024,7 @@ const main = async () => {
         chart = `${defaultRepo.name}/${defaultRepo.chart}`;
     }
     await helm.addRepo(repoName, repoUrl);
+    await helm.updateRepo(repoName);
     const helmArgs = [
         // 'template',
         'upgrade',

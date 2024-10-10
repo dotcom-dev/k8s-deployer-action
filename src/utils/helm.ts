@@ -123,4 +123,8 @@ export class Helm {
   public addRepo(repoName: string, repoUrl: string): Promise<string> {
     return this.exec(['repo', 'add', repoName, repoUrl]);
   }
+
+  public updateRepo(repoName: string): Promise<string> {
+    return this.exec(['repo', 'update', repoName]);
+  }
 }

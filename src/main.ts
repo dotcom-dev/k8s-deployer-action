@@ -93,6 +93,8 @@ const main = async (): Promise<void> => {
 
   await helm.addRepo(repoName, repoUrl);
 
+  await helm.updateRepo(repoName);
+
   const helmArgs = [
     // 'template',
     'upgrade',
