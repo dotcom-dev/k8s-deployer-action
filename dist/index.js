@@ -7004,8 +7004,8 @@ const main = async () => {
     const releaseName = (0, core_1.getInput)('releaseName', { required: true });
     const wait = (0, core_1.getInput)('wait', { required: false });
     const defaultRepo = {
-        name: 'gamote',
-        url: 'https://gamote.github.io/charts',
+        name: 'dotcom',
+        url: 'https://dotcom-dev.github.io/charts',
         chart: 'deployer',
     };
     let repoUrl = (0, core_1.getInput)('repoUrl', { required: false });
