@@ -12,7 +12,7 @@
 2. Build the code: `yarn build`
 3. Update the version in `package.json`
 4. Commit the changes
-5. Create a new tag with the version: `git tag -a v3.0.1`
+5. Create a new tag with the version: `git tag -a v3.0.1 -m v3.0.1`
 6. Push the changes: `git push origin main --tags`
 
 ## Roadmap
