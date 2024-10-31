@@ -14,8 +14,8 @@ inputs:
     description: 'Helm release name. Will be combined with track if set. (Required)'
     required: true
   chart:
-    description: 'Helm chart. (Required)'
-    required: true
+    description: 'Helm chart. (Default: .)'
+    required: false
   helmVersion:
     description: 'Version of Helm. Installs a specific version of Helm binary (Default: latest?)'
     required: false
