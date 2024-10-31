@@ -10,5 +10,5 @@ export declare class Helm {
     static create(version?: string): Promise<Helm>;
     exec(args: string[]): Promise<string>;
     addRepo(repoName: string, repoUrl: string): Promise<string>;
-    updateRepo(repoName: string): Promise<string>;
+    updateRepo(): Promise<string>;
 }
