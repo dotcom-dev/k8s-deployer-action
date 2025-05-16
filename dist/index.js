@@ -7003,6 +7003,7 @@ const main = async () => {
     // TODO: add repo
     // TODO: init in case Helm2
     const helm = await helm_1.Helm.create();
+    const dependencyUpdate = (0, core_1.getInput)('dependencyUpdate', { required: false });
     const namespace = (0, core_1.getInput)('namespace', { required: true });
     const releaseName = (0, core_1.getInput)('releaseName', { required: true });
     const wait = (0, core_1.getInput)('wait', { required: false });
@@ -7034,6 +7035,9 @@ const main = async () => {
         releaseName,
         chart,
     ];
+    if (String(dependencyUpdate) === 'true') {
+        helmArgs.push('--dependency-update');
+    }
     if (wait != 'false') {
         helmArgs.push('--wait');
     }
