@@ -66,6 +66,7 @@ const main = async (): Promise<void> => {
 
   const helm = await Helm.create();
 
+  const dependencyUpdate = getInput('dependencyUpdate', { required: false });
   const namespace = getInput('namespace', { required: true });
   const releaseName = getInput('releaseName', { required: true });
   const wait = getInput('wait', { required: false });
@@ -104,6 +105,10 @@ const main = async (): Promise<void> => {
     releaseName,
     chart,
   ];
+
+  if (String(dependencyUpdate) === 'true') {
+    helmArgs.push('--dependency-update');
+  }
 
   if (wait != 'false') {
     helmArgs.push('--wait');
