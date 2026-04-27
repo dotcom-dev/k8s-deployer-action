@@ -70,6 +70,7 @@ const main = async (): Promise<void> => {
   const namespace = getInput('namespace', { required: true });
   const releaseName = getInput('releaseName', { required: true });
   const wait = getInput('wait', { required: false });
+  const atomic = getInput('atomic', { required: false });
 
   const defaultRepo = {
     name: 'dotcom',
@@ -112,6 +113,10 @@ const main = async (): Promise<void> => {
 
   if (wait != 'false') {
     helmArgs.push('--wait');
+  }
+
+  if (String(atomic) === 'true') {
+    helmArgs.push('--atomic');
   }
 
   getValueFiles().forEach((file) => {

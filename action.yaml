@@ -37,6 +37,9 @@ inputs:
   dependencyUpdate:
     description: 'Helm --dependency-update flag for the helm upgrade command. Defaults to false'
     required: false
+  atomic:
+    description: 'Helm --atomic flag. If set, the upgrade is rolled back on failure, preventing the release from being left in a pending state. Defaults to false'
+    required: false
 
 runs:
   using: 'node20'
